@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  movie:
+    build: .
+    depends_on:
+      - mongodb
+    container_name: movie
+    image: felipeschirmann/movie:v1.0.1
+    environment:
+      MONGODB_URI: mongodb://mongouser:mongopwd@mongodb:27017/admin
+    ports:
+      - "8181:8181"
+
+  mongodb:
+    image: mongo:4.0.8
+    container_name: mongodb
+    volumes:
+      - db_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopwd
+
+volumes:
+  db_data:
+    driver: local
